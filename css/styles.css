@@ -1,0 +1,53 @@
+body {
+  font-family: Helvetica;
+  padding: 2em;
+  background-color: whitesmoke;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+.files-div {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.class-info {
+    align: center;
+}
+
+#h-files {
+  background-color: #E55126;
+}
+
+#c-files {
+  background-color: #E5A227;
+}
+
+.input-files-div {
+  width: 100%;
+  padding: 1em 3em 2em 2em;
+  margin: 0.5em;
+  border-radius: 4em;
+
+  color: whitesmoke;
+  align: left;
+}
+
+.button-add-file {
+  padding: 0.75em 1.25em;
+  background-color: whitesmoke;
+  opacity: 0.9;
+  width: 10em;
+  color: black;
+}
+
+.submit {
+  padding: 0.75em 1.25em;
+  background-color: #6699ff;
+  opacity: 0.9;
+  width: 10em;
+  color: black;
+}
