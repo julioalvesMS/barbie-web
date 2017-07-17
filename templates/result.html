@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link rel='stylesheet' type='text/css' href='static/css/styles.css'>
+    <title>Barbie MotherFucker</title>
+</head>
+<body>
+    <div>
+        <h1>Barbie</h1>
+        <div>
+            <h2>Saida</h2>
+            <div>
+                <p>{{ output }}</p>
+            </div>
+        </div>
+        <div>
+            <h2>Testes</h2>
+            <div>
+                {% for test in results %}
+                    <div class='test-div' id={% if test.correct %} 'correct-div' {% else %} 'incorrect-div' {% endif %}>
+                        <h3> Teste {{ test.id }}</h3>
+                        {% if not test.correct %}
+                            <h4 clas='test-res-h' id='incorrect'>Resultado Incorreto</h4>
+                            <p> Numero de linhas diferentes: {{ test.difference_count}} </p>
+                            <p> {{ test.first_error_out}} </p>
+                            <p> {{ test.first_error_susy}} </p>
+                            <div>
+                                <p><a href="output/{{ submission_id }}/{{ test.id }}/out">Saida Obtida</a></p>
+                                <p><a href="output/{{ submission_id }}/{{ test.id }}/res">Saida Esperada</a></p>
+                                <p><a href="output/{{ submission_id }}/{{ test.id }}/cmp">Comparação</a></p>
+                            </div>
+                        {% else %}
+                            <h4 clas='test-res-h' id='correct-msg'>Resultado Correto</h4>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>

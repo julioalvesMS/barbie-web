@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, make_response
 from werkzeug.utils import secure_filename
 
 import tempfile
@@ -18,6 +18,7 @@ def DefaultCodeSubmissionPage():
 def BarbieSubmissionPage():
     # Make a unique temporary folder for this submission
     temp_dir = tempfile.mkdtemp(prefix='barbie')
+    submission_id = os.path.basename(temp_dir)
     # Use a dict to save all of run_and_comparethe files, separated by extension
     _files = dict()
     for key in request.files:
@@ -31,13 +32,36 @@ def BarbieSubmissionPage():
             _files[ext] = list()
         # Save in the dict the path to this file
         _files[ext].append(path)
-    with open('out.txt', 'w+') as txt:
-        sys.stdout = txt
-        try:
-            barbiefy(temp_dir, _files['c'], request.form['disciplina'], request.form['turma'], request.form['lab'])
-        except:
-            aux = sys.exc_info()[2]
-            print('Erro')
-            traceback.print_exception(aux[0], aux[1], aux[2])
-        aux = txt.read()
-    return aux
+
+    fd, txt_path = tempfile.mkstemp(dir=temp_dir, text=True)
+    txt = open(txt_path, 'w')
+
+    stderr, sys.stderr = sys.stderr, txt
+    try:
+        results = barbiefy(temp_dir, _files['c'], request.form['disciplina'], request.form['turma'], request.form['lab'])
+    except:
+        aux = sys.exc_info()[2]
+        print('Erro: Execução interrompida')
+        results = list()
+    sys.stderr = stderr
+    txt.close()
+
+    txt = open(txt_path, 'r')
+    output = txt.read()
+    txt.close()
+
+    os.close(fd)
+
+    if not output:
+        output = 'Nenhum problema encontrado durante a execução'
+
+    return render_template('result.html', output=output, results=results, submission_id=submission_id)
+
+@app.route('/output/<submission_id>/<index>/<file_type>')
+def RetrieveFile(submission_id, index, file_type):
+    f = open(os.path.join('/tmp', submission_id, 'testes', index, 'arq%s.%s' % (index, file_type)), 'r')
+    msg = f.read()
+    f.close()
+    resp = make_response(msg)
+    resp.headers['content-type'] = 'text/plain'
+    return resp

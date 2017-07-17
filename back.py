@@ -3,6 +3,7 @@ import barbie.susy_interface as susy
 
 import subprocess
 import os.path
+from shutil import rmtree
 
 def barbiefy(dir, codes, disc, turma, lab):
 
@@ -35,4 +36,6 @@ def barbiefy(dir, codes, disc, turma, lab):
 	# If we sucessufuly got all needed files,
 	# we may run all tests and compare our output with the expected
 	if in_files and res_files:
-		run_and_compare(exec_file, in_files, res_files, tests_dir_name)
+		results = run_and_compare(exec_file, in_files, res_files, tests_dir_name)
+
+	return results
