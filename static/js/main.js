@@ -4,7 +4,7 @@ function main(){
 
 function addCFile(){
     var nFiles = $('#code-files-table >tbody >tr').length + 1;
-    $('#code-files-table').find('tbody').append('<tr><td><input type="file" accept=".c" class="code-file" name="cfile_'+nFiles+'" size="45"></td></tr>');
+    $('#code-files-table').find('tbody').append('<tr><td><input type="file" accept=".c, .h" class="code-file" name="cfile_'+nFiles+'" size="45"></td></tr>');
 }
 
 

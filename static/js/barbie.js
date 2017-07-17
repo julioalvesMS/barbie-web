@@ -29,13 +29,6 @@ function checkClassInfo(){
     return ok;
 }
 
-//
-function submitLab(){
-    var disciplina = $('input[name="disciplina"]').val();
-    var turma = $('input[name="turma"]').val();
-    var lab = $('input[name="lab"]').val();
-}
-
 // Notifica o usuario de uma mensagem de erro
 function notification(msg) {
     alert(msg);
