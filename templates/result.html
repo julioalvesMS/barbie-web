@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <link rel='stylesheet' type='text/css' href='static/css/styles.css'>
+    <link rel='stylesheet' type='text/css' href='css/styles.css'>
     <title>Barbie MotherFucker</title>
 </head>
 <body>
@@ -14,27 +14,46 @@
             </div>
         </div>
         <div>
-            <h2>Testes</h2>
-            <div>
-                {% for test in results %}
-                    <div class='test-div' id={% if test.correct %} 'correct-div' {% else %} 'incorrect-div' {% endif %}>
-                        <h3> Teste {{ test.id }}</h3>
+            <hr>
+            <div class='answer'>
+                <h2>Testes Incorretos</h2>
+                <div class='answer'>
+                    <h3 class='none-out' id='none-incorrect' hidden="hidden">Nenhum teste Incorreto</h3>
+                    {% for test in results %}
                         {% if not test.correct %}
-                            <h4 clas='test-res-h' id='incorrect'>Resultado Incorreto</h4>
-                            <p> Numero de linhas diferentes: {{ test.difference_count}} </p>
-                            <p> {{ test.first_error_out}} </p>
-                            <p> {{ test.first_error_susy}} </p>
-                            <div>
-                                <p><a href="output/{{ submission_id }}/{{ test.id }}/out">Saida Obtida</a></p>
-                                <p><a href="output/{{ submission_id }}/{{ test.id }}/res">Saida Esperada</a></p>
-                                <p><a href="output/{{ submission_id }}/{{ test.id }}/cmp">Comparação</a></p>
+                            <div class='test-div' id='incorrect-div'>
+                                <h3> Teste {{ test.id }}</h3>
+                                <h4 clas='test-res-h' id='incorrect'>Resultado Incorreto</h4>
+                                <p> Numero de linhas diferentes: {{ test.difference_count}} </p>
+                                <p> {{ test.first_error_out}} </p>
+                                <p> {{ test.first_error_susy}} </p>
+                                <div>
+                                    <p><a href="output/{{ submission_id }}/{{ test.id }}/out">Saida Obtida</a></p>
+                                    <p><a href="output/{{ submission_id }}/{{ test.id }}/res">Saida Esperada</a></p>
+                                    <p><a href="output/{{ submission_id }}/{{ test.id }}/cmp">Comparação</a></p>
+                                </div>
                             </div>
-                        {% else %}
-                            <h4 clas='test-res-h' id='correct-msg'>Resultado Correto</h4>
                         {% endif %}
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+            <div class='answer'>
+                <h2>Testes Corretos</h2>
+                <div class='answer'>
+                    <h3 class='none-out' id='none-correct' hidden="hidden">Nenhum teste Correto</h3>
+                    {% for test in results %}
+                        {% if test.correct %}
+                            <div class='test-div' id='correct-div'>
+                                <h3> Teste {{ test.id }}</h3>
+                                <h4 clas='test-res-h' id='correct-msg'>Resultado Correto</h4>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
+    <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
+    <script src="js/result.js"/></script>
 </body>

@@ -1,4 +1,3 @@
-
 var cFiles = [];
 var hFiles = [];
 
@@ -6,10 +5,22 @@ function main(){
     // Check if all submission conditions are satisfied
     $('form').submit(function(event){
         if(checkClassInfo()){
+            loading();
             return;
         }
         event.preventDefault();
     });
+    $('#add-code-file').on('click', addCFile);
+}
+
+function addCFile(){
+    var nFiles = $('#code-files-table >tbody >tr').length + 1;
+    $('#code-files-table').find('tbody').append('<tr><td><input type="file" accept=".c, .h" class="code-file" name="cfile_'+nFiles+'" size="45"></td></tr>');
+}
+
+function loading(){
+    $(".loading").show();
+    $(".content").hide();
 }
 
 function checkClassInfo(){
@@ -34,4 +45,5 @@ function notification(msg) {
     alert(msg);
 }
 
+addCFile();
 $(document).ready(main);

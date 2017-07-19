@@ -8,7 +8,7 @@ import traceback
 
 from back import barbiefy
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='')
 
 @app.route('/')
 def DefaultCodeSubmissionPage():
@@ -40,8 +40,8 @@ def BarbieSubmissionPage():
     try:
         results = barbiefy(temp_dir, _files['c'], request.form['disciplina'], request.form['turma'], request.form['lab'])
     except:
-        aux = sys.exc_info()[2]
-        print('Erro: Execução interrompida')
+        aux = sys.exc_info()[1]
+        print('Erro: Execução interrompida:\n' + str(aux), file=sys.stderr)
         results = list()
     sys.stderr = stderr
     txt.close()
@@ -59,9 +59,12 @@ def BarbieSubmissionPage():
 
 @app.route('/output/<submission_id>/<index>/<file_type>')
 def RetrieveFile(submission_id, index, file_type):
-    f = open(os.path.join('/tmp', submission_id, 'testes', index, 'arq%s.%s' % (index, file_type)), 'r')
-    msg = f.read()
-    f.close()
-    resp = make_response(msg)
-    resp.headers['content-type'] = 'text/plain'
+    try:
+        f = open(os.path.join('/tmp', submission_id, 'testes', index, 'arq%s.%s' % (index, file_type)), 'r')
+        msg = f.read()
+        f.close()
+        resp = make_response(msg)
+        resp.headers['content-type'] = 'text/plain'
+    except IOError:
+        abort(404)
     return resp

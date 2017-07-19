@@ -18,13 +18,13 @@ h1 {
     align: center;output/
 }
 
-.test-div,
 .input-files-div {
   padding: 1em 3em 2em 2em;
   margin: 0.5em;
   border-radius: 4em;
+  width: 100%;
 
-  opacity: 0.8
+  opacity: 0.8;
   color: whitesmoke;
   background-color: #E5A227;
   align: left;
@@ -33,7 +33,6 @@ h1 {
 .button-add-file {
   padding: 0.75em 1.25em;
   background-color: whitesmoke;
-  opacity: 0.9;
   width: 10em;
   color: black;
 }
@@ -51,9 +50,42 @@ h1 {
 }
 
 #correct-div {
-    background-color: green;
+    background-color: #2eb265;
 }
 
 p {
     white-space: pre-wrap;
+}
+
+.test-div {
+  padding: 1em 3em 2em 2em;
+  margin: 0.5em;
+  float: left;
+  width: auto;
+
+  color: whitesmoke;
+  align-items: left;
+}
+
+.answer {
+    width: 100%;
+    float: inherit;
+    display: inline-block;
+}
+
+.none-out {
+    color: #919191;
+}
+div.loading {
+    position: fixed;;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url(/loadingimage.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 10000000;
+    /* opacity: 0.4;
+    filter: alpha(opacity=40); /* For IE8 and earlier */
 }
