@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, make_response
+from flask import Flask, render_template, request, url_for, make_response, abort
 from werkzeug.utils import secure_filename
 
 import tempfile
@@ -6,7 +6,7 @@ import os.path
 import sys
 import traceback
 
-from back import barbiefy
+from back import barbiefy, timedCleanUp
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 
@@ -18,9 +18,16 @@ def DefaultCodeSubmissionPage():
 def BarbieSubmissionPage():
     # Make a unique temporary folder for this submission
     temp_dir = tempfile.mkdtemp(prefix='barbie')
+    timedCleanUp(temp_dir)
     submission_id = os.path.basename(temp_dir)
     # Use a dict to save all of run_and_comparethe files, separated by extension
     _files = dict()
+
+    fd, txt_path = tempfile.mkstemp(dir=temp_dir, text=True)
+    os.close(fd)
+    txt = open(txt_path, 'w')
+    stderr, sys.stderr = sys.stderr, txt
+
     for key in request.files:
         f = request.files[key]
         path = os.path.join(temp_dir, secure_filename(f.filename))
@@ -33,24 +40,21 @@ def BarbieSubmissionPage():
         # Save in the dict the path to this file
         _files[ext].append(path)
 
-    fd, txt_path = tempfile.mkstemp(dir=temp_dir, text=True)
-    txt = open(txt_path, 'w')
-
-    stderr, sys.stderr = sys.stderr, txt
     try:
+        assert 'c' in _files, 'Nenhum arquivo .c fornecido'
         results = barbiefy(temp_dir, _files['c'], request.form['disciplina'], request.form['turma'], request.form['lab'])
+        assert results, 'Falha durante o processamento'
     except:
         aux = sys.exc_info()[1]
         print('Erro: Execução interrompida:\n' + str(aux), file=sys.stderr)
         results = list()
+
     sys.stderr = stderr
     txt.close()
 
     txt = open(txt_path, 'r')
     output = txt.read()
     txt.close()
-
-    os.close(fd)
 
     if not output:
         output = 'Nenhum problema encontrado durante a execução'

@@ -4,7 +4,7 @@ var hFiles = [];
 function main(){
     // Check if all submission conditions are satisfied
     $('form').submit(function(event){
-        if(checkClassInfo()){
+        if(checkClassInfo() && checkFiles()){
             loading();
             return;
         }
@@ -15,7 +15,14 @@ function main(){
 
 function addCFile(){
     var nFiles = $('#code-files-table >tbody >tr').length + 1;
-    $('#code-files-table').find('tbody').append('<tr><td><input type="file" accept=".c, .h" class="code-file" name="cfile_'+nFiles+'" size="45"></td></tr>');
+    $('#code-files-table').find('tbody').append('<tr><td><a class="rem-file"><img src="close.svg" width=20></a></td><td><input type="file" accept=".c, .h" class="code-file" name="cfile_'+nFiles+'" size="45"></td></tr>');
+    $('.rem-file').on('click', function(){
+        $(this).parent().parent().remove();
+        $('input[type=file]').each(function( index ){
+                $(this).attr('name', 'cfile_'+(index+1));
+        });
+
+    });
 }
 
 function loading(){
@@ -34,10 +41,28 @@ function checkClassInfo(){
         ok = false;
     }
     else if ($('input[name="lab"]').val()==='') {
-        notification('Informe o numero do laboratório');
+        notification('Informe o número do laboratório');
         ok = false;
     }
     return ok;
+}
+
+function checkFiles(){
+    var files = [];
+    $('input[type=file]').each(function(){
+            files.push($(this).val());
+    });
+    for(var i=0; i<files.length; i++){
+        if(!(files[i])){
+            notification('É necessário que todos os negócios contenham arquivos');
+            return false;
+        }
+    }
+    if(!files){
+        notification('Fornceça ao menos um arquivo de código');
+        return false;
+    }
+    return true;
 }
 
 // Notifica o usuario de uma mensagem de erro
