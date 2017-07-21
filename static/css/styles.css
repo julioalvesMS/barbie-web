@@ -5,7 +5,11 @@ body {
 }
 
 h1 {
-  font-size: 2.5em;
+    font-size: 2.5em;
+    font-style: italic;
+    font-family: cursive;
+    color: #ed31d4;
+    text-align: center;
 }
 
 .files-div {
@@ -15,7 +19,7 @@ h1 {
 }
 
 .class-info {
-    align: center;output/
+    align: center;
 }
 
 .input-files-div {
@@ -34,14 +38,18 @@ h1 {
   background-color: whitesmoke;
   width: 10em;
   color: black;
+  cursor: pointer;
 }
 
 .submit {
-  padding: 0.75em 1.25em;
-  background-color: #6699ff;
-  opacity: 0.9;
-  width: 10em;
-  color: black;
+    padding: 0.75em 1.25em;
+    width: 20em;
+    cursor: pointer;
+    color: #FFF;
+    background-color: #0095ff;
+    border-color: #07c;
+    box-shadow: inset 0 1px 0 #66bfff;
+    font-weight: bold;
 }
 
 #incorrect-div {
@@ -87,4 +95,8 @@ div.loading {
     z-index: 10000000;
     /* opacity: 0.4;
     filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+
+.rem-file {
+    cursor: pointer;
 }

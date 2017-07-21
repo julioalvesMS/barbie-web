@@ -26,7 +26,7 @@ def barbiefy(dir, codes, disc, turma, lab):
 			eprint(gcc.read())
 		return None
 
-	#"""
+	"""
 	# Code for testing the submit page while susy has no open class
 
 	time.sleep(3)
@@ -37,7 +37,7 @@ def barbiefy(dir, codes, disc, turma, lab):
 	for i in range(11, 21):
 		results.append(BarbieTest(i*3, 'Susy: Vamos dizer que isso fudeu', 'Barbie: Vamos dizer que isso fudeu', i, 'None', 'None', 'None'))
 	return results
-	#"""
+	"""
 
 	tests_dir_name = os.path.join(dir, 'testes/')
 
