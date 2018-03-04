@@ -72,3 +72,6 @@ def RetrieveFile(submission_id, index, file_type):
     except IOError:
         abort(404)
     return resp
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80)
